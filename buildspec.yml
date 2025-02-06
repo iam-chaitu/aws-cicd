@@ -5,16 +5,19 @@ phases:
     commands:
       - echo Installing dependencies...
       - npm install
+
+  pre_build:
+    commands:
+      - echo Logging into AWS ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nodeapp:latest .
+
   post_build:
     commands:
+      - echo Pushing Docker image to ECR...
+      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nodeapp:latest
       - echo Build completed on `date`
-  docker_login:
-    commands:
-      - echo login into AWS ECR 
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-  docker_image:
-    commands:
-      - echo build the docker image....
-      - docker build -t 730335427687.dkr.ecr.us-east-1.amazonaws.com/nodeapp:latest .
-      - echo pushing docker image to ECR....
-      - docker push 730335427687.dkr.ecr.us-east-1.amazonaws.com/nodeapp:latest
