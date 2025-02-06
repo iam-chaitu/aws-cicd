@@ -11,8 +11,6 @@ This is a simple Node.js application deployed using AWS CI/CD services, includin
 - [Testing](#testing)
 - [AWS CI/CD Pipeline](#aws-cicd-pipeline)
 - [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Project Overview
 
